@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-battle-dark m-0 p-0;
+  overflow-x: hidden;
+}
+
+.neon-border {
+  position: relative;
+}
+
+.neon-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #FF00FF, #00FFFF, #8A2BE2, #39FF14);
+  z-index: -1;
+  border-radius: 0.5rem;
+  animation: neon-border-animation 5s linear infinite;
+}
+
+@keyframes neon-border-animation {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+.battle-grid {
+  background-size: 25px 25px;
+  background-image: 
+    linear-gradient(to right, rgba(138, 43, 226, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(138, 43, 226, 0.15) 1px, transparent 1px);
+}
+
+.voice-bar {
+  @apply bg-neon-pink h-8 w-1 mx-0.5 rounded-full transform origin-bottom;
+}
+
+@layer components {
+  .neon-button {
+    @apply relative px-6 py-3 font-bold tracking-widest uppercase border-2 rounded-lg 
+    transition-colors duration-300 transform shadow-lg
+    bg-battle-darker border-neon-purple text-white
+    hover:bg-neon-purple hover:text-battle-darker;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.5), 
+                0 0 20px rgba(138, 43, 226, 0.3),
+                inset 0 0 10px rgba(138, 43, 226, 0.2);
+  }
+
+  .rapper-card {
+    @apply bg-battle-darker border-2 border-transparent rounded-xl p-4 transition-all 
+    hover:border-neon-blue hover:shadow-neon-blue cursor-pointer;
+  }
+
+  .rapper-card.selected {
+    @apply border-neon-purple shadow-neon-purple;
+  }
+  
+  .theme-card {
+    @apply bg-battle-darker border-2 border-transparent rounded-xl p-4 transition-all
+    hover:border-neon-green hover:shadow-neon-green cursor-pointer;
+  }
+  
+  .theme-card.selected {
+    @apply border-neon-purple shadow-neon-purple;
+  }
+
+  h1.animate-neon-pulse {
+    text-shadow: 0 0 4px #fff,
+                 0 0 8px #fff,
+                 0 0 12px #8A2BE2,
+                 0 0 16px #8A2BE2;
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes neon-pulse {
+    from {
+      text-shadow: 0 0 4px #fff,
+                   0 0 8px #fff,
+                   0 0 12px #8A2BE2,
+                   0 0 16px #8A2BE2;
+    }
+    to {
+      text-shadow: 0 0 2px #fff,
+                   0 0 4px #fff,
+                   0 0 6px #8A2BE2,
+                   0 0 8px #8A2BE2;
+    }
+  }
+}
