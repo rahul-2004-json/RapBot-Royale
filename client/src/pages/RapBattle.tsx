@@ -1,75 +1,117 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Trophy, Share2, Twitter, Facebook, Instagram } from 'lucide-react';
-import { useRapBattle } from '../context/RapBattleContext';
-import { generateMockLyrics } from '../data/rapBattleData';
-import Confetti from 'react-confetti';
-import VoiceVisualizer from '../components/VoiceVisualizer';
-import RapperDisplay from '../components/RapperDisplay';
-import WinnerModal from '../components/WinnerModal';
-import { useTTS } from '../hooks/useTTS';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ChevronLeft,
+  Trophy,
+  Share2,
+  Twitter,
+  Facebook,
+  Instagram,
+} from "lucide-react";
+import { useRapBattle } from "../context/RapBattleContext";
+// import { generateMockLyrics } from "../data/rapBattleData";
+import { generateLyrics } from "../utility/generateLyrics";
+import Confetti from "react-confetti";
+import VoiceVisualizer from "../components/VoiceVisualizer";
+import RapperDisplay from "../components/RapperDisplay";
+import WinnerModal from "../components/WinnerModal";
+import { useTTS } from "../hooks/useTTS";
 
 const RapBattle: React.FC = () => {
   const navigate = useNavigate();
   const { speak, stop, speaking } = useTTS();
-  const { 
-    rapperA, 
-    rapperB, 
-    selectedTheme,
-    setWinner,
-    winner,
-    setWinReason
-  } = useRapBattle();
-  
-  const [currentRapper, setCurrentRapper] = useState<'A' | 'B' | null>(null);
+  const { rapperA, rapperB, selectedTheme, setWinner, winner, setWinReason } =
+    useRapBattle();
+
+  const [currentRapper, setCurrentRapper] = useState<"A" | "B" | null>(null);
   const [lyricsA, setLyricsA] = useState<any[]>([]);
   const [lyricsB, setLyricsB] = useState<any[]>([]);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(0);
   const [battleComplete, setBattleComplete] = useState(false);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  
+
   // Redirect if data is missing
+  // useEffect(() => {
+  //   if (!rapperA || !rapperB || !selectedTheme) {
+  //     navigate("/");
+  //   } else {
+  //     // Generate lyrics
+  //     setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
+  //     setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
+  //   }
+  // }, [rapperA, rapperB, selectedTheme, navigate]);
+
   useEffect(() => {
-    if (!rapperA || !rapperB || !selectedTheme) {
-      navigate('/');
-    } else {
-      // Generate lyrics
-      setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
-      setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
-    }
+    const fetchLyrics = async () => {
+      if (!rapperA || !rapperB || !selectedTheme) {
+        navigate("/");
+        return;
+      }
+
+      try {
+        // const [lyricsAData, lyricsBData] = await Promise.all([
+        //   generateLyrics(rapperA.name, selectedTheme.name),
+        //   generateLyrics(rapperB.name, selectedTheme.name),
+        // ]);
+        const lyricsAData = await generateLyrics(
+          rapperA.name,
+          selectedTheme.name
+        );
+        const lyricsBData = await generateLyrics(
+          rapperB.name,
+          selectedTheme.name
+        );
+        setLyricsA(lyricsAData);
+        setLyricsB(lyricsBData);
+      } catch (error) {
+        console.error("Error generating lyrics:", error);
+        // Fallback to mock lyrics if needed
+        // setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
+        // setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
+      }
+    };
+
+    fetchLyrics();
   }, [rapperA, rapperB, selectedTheme, navigate]);
 
   useEffect(() => {
     // Start with rapper A
     if (rapperA && rapperB && selectedTheme && !currentRapper) {
       setTimeout(() => {
-        setCurrentRapper('A');
+        setCurrentRapper("A");
       }, 1500); // Give time for the page to load and animate
     }
   }, [rapperA, rapperB, selectedTheme, currentRapper]);
 
   // Handle rap battle progression
   useEffect(() => {
-    if (!currentRapper || !lyricsA.length || !lyricsB.length || !rapperA || !rapperB) return;
+    if (
+      !currentRapper ||
+      !lyricsA.length ||
+      !lyricsB.length ||
+      !rapperA ||
+      !rapperB
+    )
+      return;
 
-    const currentLyrics = currentRapper === 'A' ? lyricsA : lyricsB;
-    const currentRapperData = currentRapper === 'A' ? rapperA : rapperB;
-    
+    const currentLyrics = currentRapper === "A" ? lyricsA : lyricsB;
+    const currentRapperData = currentRapper === "A" ? rapperA : rapperB;
+
     if (currentLyricIndex < currentLyrics.length) {
       // Stop any ongoing speech
       stop();
-      
+
       // Speak the current lyric with rapper's voice settings
       speak(currentLyrics[currentLyricIndex].text, {
-        ...currentRapperData.voiceSettings
+        ...currentRapperData.voiceSettings,
       });
 
       const timeoutId = setTimeout(() => {
         setCurrentLyricIndex(currentLyricIndex + 1);
       }, currentLyrics[currentLyricIndex].duration);
-      
+
       return () => {
         clearTimeout(timeoutId);
         stop();
@@ -77,17 +119,26 @@ const RapBattle: React.FC = () => {
     } else {
       // Switch rappers or end battle
       setCurrentLyricIndex(0);
-      
-      if (currentRapper === 'A') {
+
+      if (currentRapper === "A") {
         setTimeout(() => {
-          setCurrentRapper('B');
+          setCurrentRapper("B");
         }, 1000);
       } else {
         // Battle complete
         setBattleComplete(true);
       }
     }
-  }, [currentRapper, currentLyricIndex, lyricsA, lyricsB, rapperA, rapperB, speak, stop]);
+  }, [
+    currentRapper,
+    currentLyricIndex,
+    lyricsA,
+    lyricsB,
+    rapperA,
+    rapperB,
+    speak,
+    stop,
+  ]);
 
   const handleRandomWinner = () => {
     const randomWinner = Math.random() > 0.5 ? rapperA : rapperB;
@@ -96,18 +147,18 @@ const RapBattle: React.FC = () => {
       "with those unforgettable punchlines",
       "delivering the most creative verses",
       "bringing unmatched energy to the battle",
-      "with superior delivery and stage presence"
+      "with superior delivery and stage presence",
     ];
     const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-    
+
     setWinner(randomWinner);
     setWinReason(randomReason);
     setShowWinnerModal(true);
     setShowConfetti(true);
   };
 
-  const handleChooseWinner = (winner: 'A' | 'B') => {
-    setWinner(winner === 'A' ? rapperA : rapperB);
+  const handleChooseWinner = (winner: "A" | "B") => {
+    setWinner(winner === "A" ? rapperA : rapperB);
     setWinReason("for an amazing performance that won the crowd over");
     setShowWinnerModal(true);
     setShowConfetti(true);
@@ -121,7 +172,7 @@ const RapBattle: React.FC = () => {
     <div className="min-h-screen bg-battle-darker relative overflow-hidden">
       {/* Background grid overlay */}
       <div className="absolute inset-0 battle-grid opacity-30"></div>
-      
+
       {/* Header and navigation */}
       <div className="relative z-10">
         <motion.div
@@ -129,14 +180,14 @@ const RapBattle: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center p-4"
         >
-          <button 
-            onClick={() => navigate('/select-theme')} 
+          <button
+            onClick={() => navigate("/select-theme")}
             className="flex items-center text-neon-blue hover:text-neon-purple transition-colors"
           >
             <ChevronLeft size={20} />
             <span>Back to Theme Selection</span>
           </button>
-          
+
           <div className="ml-auto flex space-x-2">
             <motion.div
               initial={{ opacity: 0 }}
@@ -144,7 +195,9 @@ const RapBattle: React.FC = () => {
               className="bg-battle-dark px-4 py-2 rounded-full flex items-center"
             >
               <span className="text-neon-green mr-2">{selectedTheme.icon}</span>
-              <span className="text-neon-blue font-battle">{selectedTheme.name}</span>
+              <span className="text-neon-blue font-battle">
+                {selectedTheme.name}
+              </span>
             </motion.div>
           </div>
         </motion.div>
@@ -154,20 +207,20 @@ const RapBattle: React.FC = () => {
       <div className="flex flex-col md:flex-row h-[calc(100vh-10rem)] p-4 relative z-10">
         {/* Rapper A */}
         <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-6 relative">
-          <RapperDisplay 
+          <RapperDisplay
             rapper={rapperA}
-            isActive={currentRapper === 'A'}
+            isActive={currentRapper === "A"}
             side="left"
           />
-          
-          {currentRapper === 'A' && (
-            <motion.div 
+
+          {currentRapper === "A" && (
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-4"
             >
               <VoiceVisualizer isActive={speaking} />
-              
+
               {lyricsA.length > 0 && currentLyricIndex < lyricsA.length && (
                 <motion.div
                   key={currentLyricIndex}
@@ -176,47 +229,49 @@ const RapBattle: React.FC = () => {
                   exit={{ opacity: 0 }}
                   className="bg-battle-dark border border-neon-pink px-4 py-3 rounded-lg mt-4 max-w-sm mx-auto text-center"
                 >
-                  <p className="text-white">{lyricsA[currentLyricIndex].text}</p>
+                  <p className="text-white">
+                    {lyricsA[currentLyricIndex].text}
+                  </p>
                 </motion.div>
               )}
             </motion.div>
           )}
         </div>
-        
+
         {/* Center VS */}
         <div className="flex items-center justify-center py-4 md:py-0">
-          <motion.div 
-            animate={{ 
+          <motion.div
+            animate={{
               scale: [1, 1.2, 1],
-              rotate: [0, 5, -5, 0]
+              rotate: [0, 5, -5, 0],
             }}
-            transition={{ 
+            transition={{
               duration: 2,
               repeat: Infinity,
-              repeatType: "reverse"
+              repeatType: "reverse",
             }}
             className="text-4xl md:text-6xl font-display text-neon-yellow"
           >
             VS
           </motion.div>
         </div>
-        
+
         {/* Rapper B */}
         <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-6 relative">
-          <RapperDisplay 
+          <RapperDisplay
             rapper={rapperB}
-            isActive={currentRapper === 'B'}
+            isActive={currentRapper === "B"}
             side="right"
           />
-          
-          {currentRapper === 'B' && (
-            <motion.div 
+
+          {currentRapper === "B" && (
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-4"
             >
               <VoiceVisualizer isActive={speaking} />
-              
+
               {lyricsB.length > 0 && currentLyricIndex < lyricsB.length && (
                 <motion.div
                   key={currentLyricIndex}
@@ -225,14 +280,16 @@ const RapBattle: React.FC = () => {
                   exit={{ opacity: 0 }}
                   className="bg-battle-dark border border-neon-blue px-4 py-3 rounded-lg mt-4 max-w-sm mx-auto text-center"
                 >
-                  <p className="text-white">{lyricsB[currentLyricIndex].text}</p>
+                  <p className="text-white">
+                    {lyricsB[currentLyricIndex].text}
+                  </p>
                 </motion.div>
               )}
             </motion.div>
           )}
         </div>
       </div>
-      
+
       {/* Battle controls */}
       <div className="p-6 flex justify-center items-center relative z-10">
         <AnimatePresence>
@@ -243,23 +300,23 @@ const RapBattle: React.FC = () => {
               exit={{ opacity: 0, y: 30 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <button 
-                onClick={() => handleChooseWinner('A')} 
+              <button
+                onClick={() => handleChooseWinner("A")}
                 className="neon-button border-neon-pink"
               >
                 {rapperA.name} Wins
               </button>
-              
-              <button 
-                onClick={handleRandomWinner} 
+
+              <button
+                onClick={handleRandomWinner}
                 className="neon-button border-neon-yellow flex items-center"
               >
                 <Trophy size={18} className="mr-2" />
                 Random Winner
               </button>
-              
-              <button 
-                onClick={() => handleChooseWinner('B')} 
+
+              <button
+                onClick={() => handleChooseWinner("B")}
                 className="neon-button border-neon-blue"
               >
                 {rapperB.name} Wins
@@ -277,7 +334,7 @@ const RapBattle: React.FC = () => {
           recycle={false}
           numberOfPieces={500}
           gravity={0.3}
-          colors={['#FF00FF', '#00FFFF', '#8A2BE2', '#FFFF00', '#39FF14']}
+          colors={["#FF00FF", "#00FFFF", "#8A2BE2", "#FFFF00", "#39FF14"]}
           onConfettiComplete={() => setShowConfetti(false)}
         />
       )}

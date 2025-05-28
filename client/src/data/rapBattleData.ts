@@ -26,7 +26,7 @@ export const rappers: Rapper[] = [
   {
     id: "elon",
     name: "Elon Musk",
-    image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://www.rollingstone.com/wp-content/uploads/2023/04/elon-musk-RS-1800.jpg?w=1581&h=1054&crop=1",
     description: "Tech entrepreneur and space enthusiast",
     voiceSettings: {
       voiceIndex: 0,
@@ -37,7 +37,7 @@ export const rappers: Rapper[] = [
   {
     id: "trump",
     name: "Donald Trump",
-    image: "https://images.pexels.com/photos/8539462/pexels-photo-8539462.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://d.newsweek.com/en/full/607719/djt.jpg?w=1200&f=e057528880369f5f4ff737cb4bdf2e0d",
     description: "Former US President and businessman",
     voiceSettings: {
       voiceIndex: 1,
@@ -48,7 +48,7 @@ export const rappers: Rapper[] = [
   {
     id: "modi",
     name: "Narendra Modi",
-    image: "https://images.pexels.com/photos/1181472/pexels-photo-1181472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202405/pm-modi-smiling-064650291-16x9_0.jpeg?VersionId=jB9Lbi.Ok_FF1q5NWLNuMtK9MVa7EfRp",
     description: "Indian Prime Minister and political leader",
     voiceSettings: {
       voiceIndex: 2,
@@ -59,7 +59,7 @@ export const rappers: Rapper[] = [
   {
     id: "einstein",
     name: "Albert Einstein",
-    image: "https://images.pexels.com/photos/3756766/pexels-photo-3756766.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://m.media-amazon.com/images/I/81WsjLnanYL._AC_UF894,1000_QL80_.jpg",
     description: "Legendary physicist and Nobel prize winner",
     voiceSettings: {
       voiceIndex: 3,
@@ -70,7 +70,7 @@ export const rappers: Rapper[] = [
   {
     id: "shakira",
     name: "Shakira",
-    image: "https://images.pexels.com/photos/14923670/pexels-photo-14923670.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://i.pinimg.com/736x/13/3b/1f/133b1f19cd6a9975143d3a8ad6dbcc9c.jpg",
     description: "Global music icon and performer",
     voiceSettings: {
       voiceIndex: 4,
@@ -81,7 +81,7 @@ export const rappers: Rapper[] = [
   {
     id: "oprah",
     name: "Oprah Winfrey",
-    image: "https://images.pexels.com/photos/8107198/pexels-photo-8107198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYMEo-Q7i5lNK24-HTD0y6Pe-4WGMJ5_3rCw&s",
     description: "Media mogul and philanthropist",
     voiceSettings: {
       voiceIndex: 0,
