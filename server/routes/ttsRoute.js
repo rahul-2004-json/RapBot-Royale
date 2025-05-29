@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/stream-audio', async (req, res) => {
   const { text, voiceId } = req.body;
 
+  console.log(process.env.ELEVENLABS_API_KEY)
   try {
     const response = await axios({
       method: 'post',
