@@ -31,7 +31,7 @@ export const rappers: Rapper[] = [
     voiceSettings: {
       voiceIndex: 0,
       pitch: 1,
-      rate: 0.9
+      rate: 1.0
     }
   },
   {
@@ -41,8 +41,8 @@ export const rappers: Rapper[] = [
     description: "Former US President and businessman",
     voiceSettings: {
       voiceIndex: 1,
-      pitch: 0.8,
-      rate: 0.85
+      pitch: 0.85,
+      rate: 0.9
     }
   },
   {
@@ -53,7 +53,7 @@ export const rappers: Rapper[] = [
     voiceSettings: {
       voiceIndex: 2,
       pitch: 1.1,
-      rate: 0.9
+      rate: 0.95
     }
   },
   {
@@ -63,8 +63,8 @@ export const rappers: Rapper[] = [
     description: "Legendary physicist and Nobel prize winner",
     voiceSettings: {
       voiceIndex: 3,
-      pitch: 1.2,
-      rate: 0.8
+      pitch: 1.0,
+      rate: 0.85
     }
   },
   {
@@ -74,8 +74,8 @@ export const rappers: Rapper[] = [
     description: "Global music icon and performer",
     voiceSettings: {
       voiceIndex: 4,
-      pitch: 1.4,
-      rate: 1
+      pitch: 1.5,
+      rate: 1.15
     }
   },
   {
@@ -84,7 +84,7 @@ export const rappers: Rapper[] = [
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYMEo-Q7i5lNK24-HTD0y6Pe-4WGMJ5_3rCw&s",
     description: "Media mogul and philanthropist",
     voiceSettings: {
-      voiceIndex: 0,
+      voiceIndex: 5,
       pitch: 1.3,
       rate: 0.95
     }

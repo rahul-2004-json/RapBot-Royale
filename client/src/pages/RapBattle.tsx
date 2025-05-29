@@ -10,7 +10,7 @@ import {
   Instagram,
 } from "lucide-react";
 import { useRapBattle } from "../context/RapBattleContext";
-// import { generateMockLyrics } from "../data/rapBattleData";
+import { generateMockLyrics } from "../data/rapBattleData";
 import { generateLyrics } from "../utility/generateLyrics";
 import Confetti from "react-confetti";
 import VoiceVisualizer from "../components/VoiceVisualizer";
@@ -32,16 +32,20 @@ const RapBattle: React.FC = () => {
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  // Redirect if data is missing
-  // useEffect(() => {
-  //   if (!rapperA || !rapperB || !selectedTheme) {
-  //     navigate("/");
-  //   } else {
-  //     // Generate lyrics
-  //     setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
-  //     setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
-  //   }
-  // }, [rapperA, rapperB, selectedTheme, navigate]);
+  useEffect(() => {
+    const audio = new Audio("/battle_sound.mp3");
+    audio.loop = true;
+    audio.volume = 0.25;
+
+    const play = () => audio.play().catch(() => {});
+    window.addEventListener("click", play, { once: true });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      window.removeEventListener("click", play);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchLyrics = async () => {
@@ -51,10 +55,6 @@ const RapBattle: React.FC = () => {
       }
 
       try {
-        // const [lyricsAData, lyricsBData] = await Promise.all([
-        //   generateLyrics(rapperA.name, selectedTheme.name),
-        //   generateLyrics(rapperB.name, selectedTheme.name),
-        // ]);
         const lyricsAData = await generateLyrics(
           rapperA.name,
           selectedTheme.name
@@ -68,8 +68,8 @@ const RapBattle: React.FC = () => {
       } catch (error) {
         console.error("Error generating lyrics:", error);
         // Fallback to mock lyrics if needed
-        // setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
-        // setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
+        setLyricsA(generateMockLyrics(rapperA.id, selectedTheme.id));
+        setLyricsB(generateMockLyrics(rapperB.id, selectedTheme.id));
       }
     };
 
@@ -169,7 +169,7 @@ const RapBattle: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-battle-darker relative overflow-hidden">
+    <div className="min-h-screen bg-battle-dark battle-grid flex flex-col px-4 md:px-10 py-8">
       {/* Background grid overlay */}
       <div className="absolute inset-0 battle-grid opacity-30"></div>
 

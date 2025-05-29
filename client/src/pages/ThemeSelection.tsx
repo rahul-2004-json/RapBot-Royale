@@ -1,28 +1,43 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { themes } from '../data/rapBattleData';
-import { useRapBattle } from '../context/RapBattleContext';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { themes } from "../data/rapBattleData";
+import { useRapBattle } from "../context/RapBattleContext";
 
 const ThemeSelection: React.FC = () => {
   const navigate = useNavigate();
   const { rapperA, rapperB, setSelectedTheme } = useRapBattle();
   const [themeId, setThemeId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const audio = new Audio("/landing_page.mp3");
+    audio.loop = true;
+    audio.volume = 0.4;
+
+    const play = () => audio.play().catch(() => {});
+    window.addEventListener("click", play, { once: true });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      window.removeEventListener("click", play);
+    };
+  }, []);
+
   // Redirect if rappers aren't selected
   React.useEffect(() => {
     if (!rapperA || !rapperB) {
-      navigate('/select-rappers');
+      navigate("/select-rappers");
     }
   }, [rapperA, rapperB, navigate]);
 
   const handleContinue = () => {
     if (themeId) {
-      const themeData = themes.find(t => t.id === themeId);
+      const themeData = themes.find((t) => t.id === themeId);
       if (themeData) {
         setSelectedTheme(themeData);
-        navigate('/battle');
+        navigate("/battle");
       }
     }
   };
@@ -34,8 +49,8 @@ const ThemeSelection: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center mb-8"
       >
-        <button 
-          onClick={() => navigate('/select-rappers')} 
+        <button
+          onClick={() => navigate("/select-rappers")}
           className="flex items-center text-neon-blue hover:text-neon-purple transition-colors"
         >
           <ChevronLeft size={20} />
@@ -68,11 +83,13 @@ const ThemeSelection: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             onClick={() => setThemeId(theme.id)}
-            className={`theme-card ${themeId === theme.id ? 'selected' : ''}`}
+            className={`theme-card ${themeId === theme.id ? "selected" : ""}`}
           >
             <div className="flex flex-col items-center text-center p-4">
               <div className="text-5xl mb-4">{theme.icon}</div>
-              <h3 className="text-xl font-battle text-white mb-2">{theme.name}</h3>
+              <h3 className="text-xl font-battle text-white mb-2">
+                {theme.name}
+              </h3>
               <p className="text-neutral-300">{theme.description}</p>
             </div>
           </motion.div>
@@ -85,7 +102,9 @@ const ThemeSelection: React.FC = () => {
           whileTap={{ scale: 0.95 }}
           onClick={handleContinue}
           disabled={!themeId}
-          className={`flex items-center neon-button ${!themeId ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`flex items-center neon-button ${
+            !themeId ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           <span>Start Battle</span>
           <ChevronRight size={20} className="ml-2" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,6 +10,21 @@ const RapperSelection: React.FC = () => {
   const { setRapperA, setRapperB } = useRapBattle();
   const [selectedRapperA, setSelectedRapperA] = useState<string | null>(null);
   const [selectedRapperB, setSelectedRapperB] = useState<string | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/landing_page.mp3");
+    audio.loop = true;
+    audio.volume = 0.4;
+
+    const play = () => audio.play().catch(() => {});
+    window.addEventListener("click", play, { once: true });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      window.removeEventListener("click", play);
+    };
+  }, []);
 
   const handleRapperASelection = (rapperId: string) => {
     // Prevent selecting the same rapper for both positions
