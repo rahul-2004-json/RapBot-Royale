@@ -52,8 +52,8 @@ export default {
       },
       keyframes: {
         'neon-pulse': {
-          '0%': { textShadow: '0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #8A2BE2, 0 0 82px #8A2BE2' },
-          '100%': { textShadow: '0 0 10px #fff, 0 0 15px #fff, 0 0 25px #fff, 0 0 45px #00FFFF, 0 0 85px #00FFFF' },
+          '0%': { textShadow: '0 0 3px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #8A2BE2, 0 0 30px #8A2BE2'},
+          '100%': { textShadow: '0 0 4px #fff, 0 0 6px #fff, 0 0 12px #fff, 0 0 24px #00FFFF, 0 0 15px #00FFFF' },
         },
         'voice-wave': {
           '0%': { transform: 'scaleY(0.3)' },
