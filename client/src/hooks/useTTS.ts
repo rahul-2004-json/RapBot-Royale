@@ -9,6 +9,7 @@ interface TTSOptions {
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
+// useTTS.ts
 export const useTTS = () => {
   const [speaking, setSpeaking] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -58,3 +59,4 @@ export const useTTS = () => {
 
   return { speak, stop, speaking };
 };
+

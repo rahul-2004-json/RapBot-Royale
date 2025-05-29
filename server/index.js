@@ -2,19 +2,17 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors({ 
-  origin: 'https://rapbot-royale-925k.onrender.com', 
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-}));
-
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
-const ttsRoute = require("./routes/ttsRoute");
+
 const { generateLyrics } = require("./routes/generateLyricsRoute");
+const ttsRoute = require("./routes/ttsRoute");
+
+const PORT = process.env.PORT || 5000;
+
 
 app.post("/api/generate-lyrics", async (req, res) => {
   const { rapperName, theme } = req.body;

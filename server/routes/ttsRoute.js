@@ -4,13 +4,6 @@ require('dotenv').config();
 
 const router = express.Router();
 
-router.options('/stream-audio', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://rapbot-royale-925k.onrender.com');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.sendStatus(200);
-});
-
 router.post('/stream-audio', async (req, res) => {
   const { text, voiceId } = req.body;
 
@@ -33,7 +26,6 @@ router.post('/stream-audio', async (req, res) => {
       },
     });
 
-    res.setHeader('Access-Control-Allow-Origin', 'https://rapbot-royale-925k.onrender.com'); // ✅ Needed here too
     res.setHeader('Content-Type', 'audio/mpeg');
     response.data.pipe(res);
   } catch (error) {
