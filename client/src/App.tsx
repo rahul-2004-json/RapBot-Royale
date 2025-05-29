@@ -1,10 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import RapperSelection from './pages/RapperSelection';
-import ThemeSelection from './pages/ThemeSelection';
-import RapBattle from './pages/RapBattle';
-import { RapBattleProvider } from './context/RapBattleContext';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RapperSelection from "./pages/RapperSelection";
+import ThemeSelection from "./pages/ThemeSelection";
+import RapBattle from "./pages/RapBattle";
+import { RapBattleProvider } from "./context/RapBattleContext";
 
 function App() {
   return (

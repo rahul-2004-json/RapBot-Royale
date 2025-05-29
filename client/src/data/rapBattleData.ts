@@ -188,7 +188,6 @@ export const mockLyrics: Record<string, Record<string, Lyric[]>> = {
 };
 
 export const generateMockLyrics = (rapperId: string, themeId: string): Lyric[] => {
-  // First check if we have specific lyrics for this rapper and theme
   if (mockLyrics[rapperId]?.[themeId]) {
     return mockLyrics[rapperId][themeId];
   }

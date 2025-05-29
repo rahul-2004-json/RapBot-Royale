@@ -79,84 +79,13 @@ const RapBattle: React.FC = () => {
   }, [rapperA, rapperB, selectedTheme, navigate]);
 
   useEffect(() => {
-    // Start with rapper A
+    // Rapper A starts first
     if (rapperA && rapperB && selectedTheme && !currentRapper) {
       setTimeout(() => {
         setCurrentRapper("A");
-      }, 1500); // Give time for the page to load and animate
+      }, 1500);
     }
   }, [rapperA, rapperB, selectedTheme, currentRapper]);
-
-  // Handle rap battle progression
-  // useEffect(() => {
-  //   if (
-  //     !currentRapper ||
-  //     !lyricsA.length ||
-  //     !lyricsB.length ||
-  //     !rapperA ||
-  //     !rapperB
-  //   )
-  //     return;
-
-  //   const currentLyrics = currentRapper === "A" ? lyricsA : lyricsB;
-  //   const currentRapperData = currentRapper === "A" ? rapperA : rapperB;
-
-  //   if (currentLyricIndex < currentLyrics.length) {
-  //     // Stop any ongoing speech
-  //     stop();
-
-  //     // Speak the current lyric with rapper's voice settings
-  //     // speak(currentLyrics[currentLyricIndex].text, {
-  //     //   ...currentRapperData.voiceSettings,
-  //     // });
-
-  //     // speak(currentLyrics[currentLyricIndex].text, {
-  //     //   voiceId: currentRapperData.voiceSettings.voiceId,
-  //     // });
-
-  //     // const timeoutId = setTimeout(() => {
-  //     //   setCurrentLyricIndex(currentLyricIndex + 1);
-  //     // }, currentLyrics[currentLyricIndex].duration);
-
-  //     (async () => {
-  //       try {
-  //         await speak(currentLyrics[currentLyricIndex].text, {
-  //           voiceId: currentRapperData.voiceSettings.voiceId,
-  //         });
-
-  //         setCurrentLyricIndex((prev) => prev + 1);
-  //       } catch (err) {
-  //         console.error("Error during speak():", err);
-  //       }
-  //     })();
-
-  //     // return () => {
-  //     //   clearTimeout(timeoutId);
-  //     //   stop();
-  //     // };
-  //   } else {
-  //     // Switch rappers or end battle
-  //     setCurrentLyricIndex(0);
-
-  //     if (currentRapper === "A") {
-  //       setTimeout(() => {
-  //         setCurrentRapper("B");
-  //       }, 1000);
-  //     } else {
-  //       // Battle complete
-  //       setBattleComplete(true);
-  //     }
-  //   }
-  // }, [
-  //   currentRapper,
-  //   currentLyricIndex,
-  //   lyricsA,
-  //   lyricsB,
-  //   rapperA,
-  //   rapperB,
-  //   speak,
-  //   stop,
-  // ]);
 
   useEffect(() => {
     if (

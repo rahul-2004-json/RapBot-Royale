@@ -27,7 +27,6 @@ const RapperSelection: React.FC = () => {
   }, []);
 
   const handleRapperASelection = (rapperId: string) => {
-    // Prevent selecting the same rapper for both positions
     if (rapperId === selectedRapperB) {
       setSelectedRapperB(null);
     }
@@ -35,7 +34,6 @@ const RapperSelection: React.FC = () => {
   };
 
   const handleRapperBSelection = (rapperId: string) => {
-    // Prevent selecting the same rapper for both positions
     if (rapperId === selectedRapperA) {
       setSelectedRapperA(null);
     }

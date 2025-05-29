@@ -114,7 +114,7 @@ const LandingPage: React.FC = () => {
       {/* Footer */}
       <footer className="w-full py-6 bg-battle-darker border-t border-neutral-800">
         <div className="text-center text-neutral-400 text-sm">
-          <p>© 2025 Epic Rap Battles. All rights reserved.</p>
+          <p>© 2025 Rap Bot Royale. All rights reserved.</p>
         </div>
       </footer>
     </div>
