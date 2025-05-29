@@ -14,6 +14,10 @@ const ttsRoute = require("./routes/ttsRoute");
 const PORT = process.env.PORT || 5000;
 
 
+app.get('/', (req, res) => {
+  res.send('👋 Welcome to the RapBot Royale Backend API! , Go check out who is winning the epic rap battle 🎤');
+});
+
 app.post("/api/generate-lyrics", async (req, res) => {
   const { rapperName, theme } = req.body;
 
