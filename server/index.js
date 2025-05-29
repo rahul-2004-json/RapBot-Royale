@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { generateLyrics } = require("./generateLyrics");
+const { generateLyrics } = require("./routes/generateLyricsRoute");
+const ttsRoute = require("./routes/ttsRoute");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 app.post("/api/generate-lyrics", async (req, res) => {
@@ -24,6 +25,8 @@ app.post("/api/generate-lyrics", async (req, res) => {
     res.status(500).json({ error: "Failed to generate lyrics" });
   }
 });
+
+app.use('/api',ttsRoute)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

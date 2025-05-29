@@ -63,6 +63,8 @@ const RapBattle: React.FC = () => {
           rapperB.name,
           selectedTheme.name
         );
+        console.log(lyricsAData);
+        console.log(lyricsBData);
         setLyricsA(lyricsAData);
         setLyricsB(lyricsBData);
       } catch (error) {
@@ -86,6 +88,76 @@ const RapBattle: React.FC = () => {
   }, [rapperA, rapperB, selectedTheme, currentRapper]);
 
   // Handle rap battle progression
+  // useEffect(() => {
+  //   if (
+  //     !currentRapper ||
+  //     !lyricsA.length ||
+  //     !lyricsB.length ||
+  //     !rapperA ||
+  //     !rapperB
+  //   )
+  //     return;
+
+  //   const currentLyrics = currentRapper === "A" ? lyricsA : lyricsB;
+  //   const currentRapperData = currentRapper === "A" ? rapperA : rapperB;
+
+  //   if (currentLyricIndex < currentLyrics.length) {
+  //     // Stop any ongoing speech
+  //     stop();
+
+  //     // Speak the current lyric with rapper's voice settings
+  //     // speak(currentLyrics[currentLyricIndex].text, {
+  //     //   ...currentRapperData.voiceSettings,
+  //     // });
+
+  //     // speak(currentLyrics[currentLyricIndex].text, {
+  //     //   voiceId: currentRapperData.voiceSettings.voiceId,
+  //     // });
+
+  //     // const timeoutId = setTimeout(() => {
+  //     //   setCurrentLyricIndex(currentLyricIndex + 1);
+  //     // }, currentLyrics[currentLyricIndex].duration);
+
+  //     (async () => {
+  //       try {
+  //         await speak(currentLyrics[currentLyricIndex].text, {
+  //           voiceId: currentRapperData.voiceSettings.voiceId,
+  //         });
+
+  //         setCurrentLyricIndex((prev) => prev + 1);
+  //       } catch (err) {
+  //         console.error("Error during speak():", err);
+  //       }
+  //     })();
+
+  //     // return () => {
+  //     //   clearTimeout(timeoutId);
+  //     //   stop();
+  //     // };
+  //   } else {
+  //     // Switch rappers or end battle
+  //     setCurrentLyricIndex(0);
+
+  //     if (currentRapper === "A") {
+  //       setTimeout(() => {
+  //         setCurrentRapper("B");
+  //       }, 1000);
+  //     } else {
+  //       // Battle complete
+  //       setBattleComplete(true);
+  //     }
+  //   }
+  // }, [
+  //   currentRapper,
+  //   currentLyricIndex,
+  //   lyricsA,
+  //   lyricsB,
+  //   rapperA,
+  //   rapperB,
+  //   speak,
+  //   stop,
+  // ]);
+
   useEffect(() => {
     if (
       !currentRapper ||
@@ -99,46 +171,32 @@ const RapBattle: React.FC = () => {
     const currentLyrics = currentRapper === "A" ? lyricsA : lyricsB;
     const currentRapperData = currentRapper === "A" ? rapperA : rapperB;
 
-    if (currentLyricIndex < currentLyrics.length) {
-      // Stop any ongoing speech
-      stop();
+    const performLyric = async () => {
+      if (currentLyricIndex < currentLyrics.length) {
+        try {
+          await speak(currentLyrics[currentLyricIndex].text, {
+            voiceId: currentRapperData.voiceSettings.voiceId,
+          });
 
-      // Speak the current lyric with rapper's voice settings
-      speak(currentLyrics[currentLyricIndex].text, {
-        ...currentRapperData.voiceSettings,
-      });
-
-      const timeoutId = setTimeout(() => {
-        setCurrentLyricIndex(currentLyricIndex + 1);
-      }, currentLyrics[currentLyricIndex].duration);
-
-      return () => {
-        clearTimeout(timeoutId);
-        stop();
-      };
-    } else {
-      // Switch rappers or end battle
-      setCurrentLyricIndex(0);
-
-      if (currentRapper === "A") {
-        setTimeout(() => {
-          setCurrentRapper("B");
-        }, 1000);
+          setCurrentLyricIndex((prev) => prev + 1);
+        } catch (err) {
+          console.error("Error during speak():", err);
+        }
       } else {
-        // Battle complete
-        setBattleComplete(true);
+        // Finished current rapper
+        if (currentRapper === "A") {
+          setCurrentLyricIndex(0);
+          setCurrentRapper("B");
+        } else {
+          setBattleComplete(true);
+        }
       }
-    }
-  }, [
-    currentRapper,
-    currentLyricIndex,
-    lyricsA,
-    lyricsB,
-    rapperA,
-    rapperB,
-    speak,
-    stop,
-  ]);
+    };
+
+    performLyric();
+
+    return () => stop();
+  }, [currentRapper, currentLyricIndex, lyricsA, lyricsB]);
 
   const handleRandomWinner = () => {
     const randomWinner = Math.random() > 0.5 ? rapperA : rapperB;

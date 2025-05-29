@@ -2,7 +2,7 @@ const OpenAI = require("openai");
 
 const token = process.env.GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
-const modelName = "openai/gpt-4o";
+const modelName = "openai/gpt-4.1-mini";
 
 const client = new OpenAI({
   baseURL: endpoint,
@@ -11,7 +11,7 @@ const client = new OpenAI({
 
 async function generateLyrics(rapperName, theme) {
   const prompt = `
-Generate a 6-line rap battle verse by ${rapperName} on the theme of "${theme}".
+Generate a 3-line rap battle verse by ${rapperName} on the theme of "${theme}".
 Each line should be simple, clever, funny and suited for performance.
 Return ONLY the rap lines and don't inlcude line numbers.
 `;

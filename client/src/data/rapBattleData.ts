@@ -4,7 +4,7 @@ export interface Rapper {
   image: string;
   description: string;
   voiceSettings: {
-    voiceIndex: number;
+    voiceId:string;
     pitch: number;
     rate: number;
   };
@@ -29,7 +29,7 @@ export const rappers: Rapper[] = [
     image: "https://www.rollingstone.com/wp-content/uploads/2023/04/elon-musk-RS-1800.jpg?w=1581&h=1054&crop=1",
     description: "Tech entrepreneur and space enthusiast",
     voiceSettings: {
-      voiceIndex: 0,
+      voiceId:"N2lVS1w4EtoT3dr4eOWO",
       pitch: 1,
       rate: 1.0
     }
@@ -40,7 +40,7 @@ export const rappers: Rapper[] = [
     image: "https://d.newsweek.com/en/full/607719/djt.jpg?w=1200&f=e057528880369f5f4ff737cb4bdf2e0d",
     description: "Former US President and businessman",
     voiceSettings: {
-      voiceIndex: 1,
+      voiceId:"pqHfZKP75CvOlQylNhV4",
       pitch: 0.85,
       rate: 0.9
     }
@@ -51,7 +51,7 @@ export const rappers: Rapper[] = [
     image: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202405/pm-modi-smiling-064650291-16x9_0.jpeg?VersionId=jB9Lbi.Ok_FF1q5NWLNuMtK9MVa7EfRp",
     description: "Indian Prime Minister and political leader",
     voiceSettings: {
-      voiceIndex: 2,
+      voiceId:"zgqefOY5FPQ3bB7OZTVR",
       pitch: 1.1,
       rate: 0.95
     }
@@ -62,7 +62,7 @@ export const rappers: Rapper[] = [
     image: "https://m.media-amazon.com/images/I/81WsjLnanYL._AC_UF894,1000_QL80_.jpg",
     description: "Legendary physicist and Nobel prize winner",
     voiceSettings: {
-      voiceIndex: 3,
+      voiceId:"nPczCjzI2devNBz1zQrb",
       pitch: 1.0,
       rate: 0.85
     }
@@ -73,7 +73,7 @@ export const rappers: Rapper[] = [
     image: "https://i.pinimg.com/736x/13/3b/1f/133b1f19cd6a9975143d3a8ad6dbcc9c.jpg",
     description: "Global music icon and performer",
     voiceSettings: {
-      voiceIndex: 4,
+      voiceId:"1qEiC6qsybMkmnNdVMbK",
       pitch: 1.5,
       rate: 1.15
     }
@@ -84,7 +84,7 @@ export const rappers: Rapper[] = [
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYMEo-Q7i5lNK24-HTD0y6Pe-4WGMJ5_3rCw&s",
     description: "Media mogul and philanthropist",
     voiceSettings: {
-      voiceIndex: 5,
+      voiceId:"9BWtsMINqrJLrRacOk9x",
       pitch: 1.3,
       rate: 0.95
     }
