@@ -2,7 +2,7 @@ const OpenAI = require("openai");
 
 const token = process.env.GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
-const modelName = "openai/gpt-4.1";
+const modelName = "openai/gpt-4.1-mini";
 
 const client = new OpenAI({
   baseURL: endpoint,
