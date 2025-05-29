@@ -7,9 +7,13 @@ const ttsRoute = require("./routes/ttsRoute");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: 'https://rapbot-royale-925k.onrender.com' }));
-app.use(express.json());
+app.use(cors({ 
+  origin: 'https://rapbot-royale-925k.onrender.com', 
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+}));
 
+app.use(express.json());
 app.post("/api/generate-lyrics", async (req, res) => {
   const { rapperName, theme } = req.body;
 
